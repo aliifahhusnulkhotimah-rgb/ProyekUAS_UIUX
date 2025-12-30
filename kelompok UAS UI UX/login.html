@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Kopi Kita</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-[#fdfbf7] min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+<nav class="bg-[#5c4033] p-4 shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white uppercase tracking-tighter">
+            Kopi Kita<span class="text-orange-400">.</span>
+        </div>
+        <a href="index.html" class="text-white text-sm font-semibold hover:text-orange-400">
+            ← Back to Home
+        </a>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-xl border border-stone-100 overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="bg-[#5c4033] p-8 text-center text-white relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold">Welcome Back.</h2>
+                <p class="text-orange-200 text-sm mt-2">
+                    Masuk untuk melanjutkan pengalaman kopimu
+                </p>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <form id="loginForm" class="p-8 space-y-5">
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Email
+                </label>
+                <input id="email" type="email" required
+                    class="w-full px-4 py-3 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Password
+                </label>
+                <input id="password" type="password" required
+                    class="w-full px-4 py-3 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <button type="submit"
+                class="w-full py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-[#5c4033] transition shadow-md uppercase tracking-widest text-sm">
+                Masuk
+            </button>
+
+
+
+    <div class="text-center pt-4 border-t border-stone-200">
+        <a href="kopikita-admin/login-admin.html"
+       class="text-xs text-stone-500 hover:text-orange-600 font-semibold uppercase tracking-wider">
+        Login sebagai Admin
+        </a>
+    </div>
+
+    
+
+
+            <p class="text-center text-xs text-stone-500 mt-6">
+                Belum punya akun?
+                <a href="register.html" class="text-orange-600 font-bold hover:underline">
+                    Daftar di sini
+                </a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-[#2a1b12] text-white py-6 text-center text-[10px] opacity-50 uppercase tracking-[0.3em]">
+    © 2024 Kopi Kita Indonesia
+</footer>
+
+<!-- SCRIPT LOGIN -->
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (!user) {
+        alert("Email atau password salah!");
+        return;
+    }
+
+    // SIMPAN STATUS LOGIN
+    localStorage.setItem("isUserLoggedIn", "true");
+    localStorage.setItem("userEmail", user.email);
+    localStorage.setItem("userName", user.nama);
+
+    alert("Login berhasil! Selamat datang " + user.nama);
+
+    // REDIRECT KE DASHBOARD USER
+    window.location.href = "dashboard.html";
+});
+</script>
+
+</body>
+</html>
