@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu | Kopi Kita</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font & Icon -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    h1,h2,h3 { font-family: 'Playfair Display', serif; }
+    .filter-active { background:#5c4033; color:white; }
+  </style>
+</head>
+
+<body class="bg-[#fdfbf7] text-stone-800">
+
+
+<!-- HEADER -->
+<header class="bg-[#5c4033] text-white text-center py-12">
+  <h1 class="text-4xl font-bold">Our Menu</h1>
+  <p class="opacity-70 text-sm">Menu terbaru dari Kopi Kita</p>
+</header>
+
+<nav class="bg-[#5c4033] p-4 shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white uppercase tracking-tighter">
+            Kopi Kita<span class="text-orange-400">.</span>
+        </div>
+        <a href="index.html" class="text-white text-sm font-semibold hover:text-orange-400">
+            ← Back to Home
+        </a>
+    </div>
+</nav>
+
+<!-- FILTER -->
+<div class="flex justify-center gap-3 my-10">
+  <button onclick="filterMenu('all')" id="btn-all"
+    class="filter-btn filter-active px-5 py-2 rounded-full border">
+    Semua
+  </button>
+  <button onclick="filterMenu('kopi')" id="btn-kopi"
+    class="filter-btn px-5 py-2 rounded-full border">
+    Kopi
+  </button>
+  <button onclick="filterMenu('non-kopi')" id="btn-non-kopi"
+    class="filter-btn px-5 py-2 rounded-full border">
+    Non Kopi
+  </button>
+  <button onclick="filterMenu('snack')" id="btn-snack"
+    class="filter-btn px-5 py-2 rounded-full border">
+    Snack
+  </button>
+</div>
+
+<!-- MENU -->
+<main class="max-w-6xl mx-auto px-6">
+  <div id="menu-container" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-[#2a1b12] text-white text-center py-8 mt-16">
+  <p class="text-xs opacity-50">© 2024 Kopi Kita</p>
+</footer>
+
+<script>
+/* ===============================
+   DATA MENU (DEFAULT)
+================================ */
+const defaultMenu = [
+  {
+    nama: "Ice Americano",
+    harga: 18000,
+    kategori: "kopi",
+    gambar: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400"
+  },
+  {
+    nama: "Cappuccino",
+    harga: 23000,
+    kategori: "kopi",
+    gambar: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400"
+  },
+  {
+    nama: "Matcha Latte",
+    harga: 28000,
+    kategori: "non-kopi",
+    gambar: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400"
+  },
+  {
+    nama: "Chocolate Cake",
+    harga: 16000,
+    kategori: "snack",
+    gambar: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400"
+  }
+];
+
+/* ===============================
+   LOAD MENU
+================================ */
+const menuData = JSON.parse(localStorage.getItem("menuKopiKita")) || defaultMenu;
+const container = document.getElementById("menu-container");
+
+function renderMenu(data) {
+  container.innerHTML = "";
+  data.forEach(item => {
+    container.innerHTML += `
+      <div class="menu-item ${item.kategori} bg-white p-4 rounded-2xl shadow hover:shadow-xl transition">
+        <img src="${item.gambar}" class="rounded-xl aspect-square object-cover mb-3">
+        <h3 class="font-bold text-[#5c4033]">${item.nama}</h3>
+        <p class="text-orange-600 font-bold text-sm">
+          Rp ${item.harga.toLocaleString()}
+        </p>
+        <button onclick="orderWA('${item.nama}', ${item.harga})"
+          class="mt-3 w-full py-2 text-xs rounded-xl bg-stone-100 hover:bg-[#5c4033] hover:text-white transition">
+          <i class="fab fa-whatsapp"></i> Pesan
+        </button>
+      </div>
+    `;
+  });
+}
+
+renderMenu(menuData);
+
+/* ===============================
+   FILTER
+================================ */
+function filterMenu(kategori) {
+  document.querySelectorAll('.filter-btn')
+    .forEach(btn => btn.classList.remove('filter-active'));
+  document.getElementById(`btn-${kategori}`).classList.add('filter-active');
+
+  if (kategori === "all") {
+    renderMenu(menuData);
+  } else {
+    renderMenu(menuData.filter(item => item.kategori === kategori));
+  }
+}
+
+/* ===============================
+   WHATSAPP
+================================ */
+function orderWA(nama, harga) {
+  const phone = "6283134721131";
+  const msg = `Halo Kopi Kita 👋\n\nSaya ingin pesan:\n☕ ${nama}\n💰 Rp ${harga.toLocaleString()}`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+</script>
+
+</body>
+</html>

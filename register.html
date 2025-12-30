@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar | Kopi Kita</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-[#fdfbf7] min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+<nav class="bg-[#5c4033] p-4 shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white uppercase tracking-tighter">
+            Kopi Kita<span class="text-orange-400">.</span>
+        </div>
+        <a href="index.html" class="text-white text-sm font-semibold hover:text-orange-400">
+            ← Back to Home
+        </a>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-xl border border-stone-100 overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="bg-[#5c4033] p-8 text-center text-white">
+            <h2 class="text-3xl font-bold">Join Kopi Kita.</h2>
+            <p class="text-orange-200 text-sm mt-2">
+                Dapatkan promo khusus member setiap hari
+            </p>
+        </div>
+
+        <!-- FORM -->
+        <form id="registerForm" class="p-8 grid md:grid-cols-2 gap-5">
+
+            <div class="md:col-span-2 text-center text-xs font-bold text-stone-400 uppercase tracking-widest border-b pb-2 mb-2">
+                Informasi Akun
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Nama Lengkap
+                </label>
+                <input id="nama" type="text" required
+                    class="w-full px-4 py-2 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Email
+                </label>
+                <input id="email" type="email" required
+                    class="w-full px-4 py-2 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Password
+                </label>
+                <input id="password" type="password" required
+                    class="w-full px-4 py-2 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1">
+                    Konfirmasi Password
+                </label>
+                <input id="confirmPassword" type="password" required
+                    class="w-full px-4 py-2 rounded-lg bg-stone-50 border border-stone-200 focus:border-orange-500 outline-none text-sm">
+            </div>
+
+            <div class="md:col-span-2 pt-4">
+                <button type="submit"
+                    class="w-full py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-[#5c4033] transition shadow-md uppercase tracking-widest text-sm">
+                    Daftar Sekarang
+                </button>
+
+                <p class="text-center text-xs text-stone-500 mt-6">
+                    Sudah punya akun?
+                    <a href="login.html" class="text-orange-600 font-bold hover:underline">
+                        Login di sini
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-[#2a1b12] text-white py-6 text-center text-[10px] opacity-50 uppercase tracking-[0.3em]">
+    © 2024 Kopi Kita Indonesia
+</footer>
+
+<!-- SCRIPT REGISTER -->
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const nama = document.getElementById("nama").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+        alert("Password tidak sama!");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (users.find(u => u.email === email)) {
+        alert("Email sudah terdaftar!");
+        return;
+    }
+
+    users.push({
+        nama,
+        email,
+        password
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registrasi berhasil! Silakan login.");
+    window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>
